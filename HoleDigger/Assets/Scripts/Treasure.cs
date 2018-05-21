@@ -23,4 +23,7 @@ public class Treasure : MonoBehaviour {
     void Update () {
 		
 	}
+
+    public double GetDepthFound() { return DepthFound; }
+    public double GetGoldAmount() { return GoldAmount; }
 }
