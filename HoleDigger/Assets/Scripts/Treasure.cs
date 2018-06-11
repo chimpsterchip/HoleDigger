@@ -8,6 +8,8 @@ public class Treasure : MonoBehaviour {
 
     double GoldAmount;
 
+    public Sprite TreasureSprite;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -25,5 +27,9 @@ public class Treasure : MonoBehaviour {
 	}
 
     public double GetDepthFound() { return DepthFound; }
+    public void SetDepthFound(double _Depth) { DepthFound = _Depth; }
     public double GetGoldAmount() { return GoldAmount; }
+    public void SetGoldAmount(double _Gold) { GoldAmount = _Gold; }
+    public Sprite GetTreasureSprite() { return TreasureSprite; }
+    public void SetTreasureSprite(Sprite _NewSprite) { TreasureSprite = _NewSprite; }
 }
