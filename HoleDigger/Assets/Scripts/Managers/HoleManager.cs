@@ -18,8 +18,8 @@ public class HoleManager : MonoBehaviour {
     public Text HoleDepthText;
 
     //Treasure Variables
-    Queue<Treasure> TreasureQueue;
-    Treasure NextTreasure;
+    Queue<GameObject> TreasureQueue;
+    GameObject NextTreasure;
 
     //Singleton
     private static HoleManager Instance = null;
@@ -44,7 +44,10 @@ public class HoleManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		
+		if(NextTreasure == null)
+        {
+            UpdateTreasures();
+        }
 	}
 
     //Function to generate rewards and at what depth they'll be dug up
@@ -57,20 +60,11 @@ public class HoleManager : MonoBehaviour {
         OnDig();
     }
 
-    //Generates a given amount of treasures
-    void GenerateTreasures(int _Amount)
-    {
-        for(int i = 0; i < _Amount; ++i)
-        {
-
-        }
-    }
-
     void UpdateTreasures()
     {
         if(TreasureQueue.Count <= 0)
         {
-            GenerateTreasures(5);
+            TreasureQueue.Enqueue(TreasureManager.GetInstance().CreateTreasure(TreasureManager.TreasureType.Gold, 100f, 10f));
         }
         else
         {

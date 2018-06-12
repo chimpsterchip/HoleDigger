@@ -40,6 +40,13 @@ public class BackgroundManager : MonoBehaviour {
 		
 	}
 
+    void UpdateTreasureObject()
+    {
+        double Depth = HoleManager.GetInstance().GetHoleData();
+        float modo = ScreenHeight / (BackgroundDepthRatio * 10);
+        double CurrHeight = Depth % modo;
+    }
+
     void UpdateBackground()
     {
         if(NextBackground.transform.position.y >= -1)
