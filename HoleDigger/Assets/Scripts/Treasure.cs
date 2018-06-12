@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Treasure : MonoBehaviour {
 
-    double DepthFound;
+    public double DepthFound;
 
-    double GoldAmount;
+    public double GoldAmount;
 
     public Sprite TreasureSprite;
 
@@ -29,13 +29,19 @@ public class Treasure : MonoBehaviour {
 		
 	}
 
+    public void OpenTreasure()
+    {
+        Debug.Log("Opening treasure " + gameObject.name);
+        ProgressionManager.GetInstance().AddGold(GoldAmount);
+        Destroy(gameObject);
+    }
+
     public double GetDepthFound() { return DepthFound; }
     public void SetDepthFound(double _Depth) { DepthFound = _Depth; }
     public double GetGoldAmount() { return GoldAmount; }
     public void SetGoldAmount(double _Gold) { GoldAmount = _Gold; }
     public Sprite GetTreasureSprite() { return TreasureSprite; }
     public void SetTreasureSprite(Sprite _NewSprite) { TreasureSprite = _NewSprite; }
-
     public void HideSprite() { Renderer.enabled = false; }
     public void ShowSprite() { Renderer.enabled = true; }
 }

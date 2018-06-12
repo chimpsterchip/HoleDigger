@@ -5,7 +5,8 @@ using UnityEngine;
 /// Manages the background sprites as the hole gets dug.
 /// Will get data about the hole from the hole manager to update the background accordingly
 /// </summary>
-public class BackgroundManager : MonoBehaviour {
+public class BackgroundManager : MonoBehaviour
+{
 
     public float ScreenHeight = 10f;
     [Tooltip("How many levels there should be in one screenheight.")]
@@ -15,7 +16,7 @@ public class BackgroundManager : MonoBehaviour {
 
     public GameObject CurrentBackground;
     public GameObject NextBackground;
-    public Treasure NextTreasure;
+    public GameObject NextTreasure;
 
     private void OnEnable()
     {
@@ -28,43 +29,59 @@ public class BackgroundManager : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Start()
+    {
+
+    }
 
     public void Init()
     {
-        CurrentBackground.transform.position = new Vector3(0f,0f,BackgroundZ);
+        CurrentBackground.transform.position = new Vector3(0f, 0f, BackgroundZ);
         NextBackground.transform.position = new Vector3(0f, ScreenHeight, BackgroundZ);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     void UpdateTreasure()
     {
-        double Depth = NextTreasure.GetDepthFound();
+        if (!NextTreasure)//If the next treasure exists
+        {
+            NextTreasure = TreasureManager.GetInstance().GetNextTreasure();
+        }
+        //Calculate where to draw the treasure
+        double Depth = HoleManager.GetInstance().GetHoleData() - NextTreasure.GetComponent<Treasure>().GetDepthFound();
         float modo = ScreenHeight / (BackgroundDepthRatio * 10);
-        double TreasureDepth = Depth % modo;
+        double TreasureDepth = Depth % modo;      
+        //Change the position of the treasure if within range
+        if (Mathf.Abs((float)Depth) < modo)
+        {
+            NextTreasure.transform.position = new Vector3(0f, (float)TreasureDepth, TreasureZ);
+        }
     }
 
     void UpdateBackground()
     {
-        if(NextBackground.transform.position.y >= -1)
+        //If the NextBackground has reached center screen get the new NextBackgound
+        if (NextBackground.transform.position.y >= 0)
         {
+            print("Swapping Backgrounds");
             GameObject temp = CurrentBackground;
             CurrentBackground = NextBackground;
             NextBackground = temp;
         }
         //Calculate the screen positions of the backgrounds
-        double Depth = HoleManager.GetInstance().GetHoleData();
+        float Depth = (float)HoleManager.GetInstance().GetHoleData();
         float modo = ScreenHeight / (BackgroundDepthRatio * 10);
-        double CurrHeight = Depth % modo;
-        double NextHeight = -10 + CurrHeight;
-
+        float CurrHeight = Depth % modo;
+        float NextHeight = -10 + CurrHeight;
+        //Change the background positions
         CurrentBackground.transform.position = new Vector3(0f, (float)CurrHeight, BackgroundZ);
-        NextBackground.transform.position = new Vector3(0f, (float)NextHeight, BackgroundZ);       
+        NextBackground.transform.position = new Vector3(0f, (float)NextHeight, BackgroundZ);
+        //Update the treasure sprites
+        UpdateTreasure();
     }
 }

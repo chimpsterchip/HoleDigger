@@ -16,11 +16,6 @@ public class HoleManager : MonoBehaviour {
 
     public double HoleDepth;
     public Text HoleDepthText;
-
-    //Treasure Variables
-    Queue<GameObject> TreasureQueue;
-    GameObject NextTreasure;
-
     //Singleton
     private static HoleManager Instance = null;
 
@@ -44,10 +39,7 @@ public class HoleManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if(NextTreasure == null)
-        {
-            UpdateTreasures();
-        }
+
 	}
 
     //Function to generate rewards and at what depth they'll be dug up
@@ -57,38 +49,26 @@ public class HoleManager : MonoBehaviour {
     {
         HoleDepth += _AmountDug;
         UpdateUI();
+        CheckNextTreasure();
         OnDig();
     }
 
-    //Generates a given amount of treasures
-    void GenerateTreasures(int _Amount)
+    //Check the next treasure
+    void CheckNextTreasure()
     {
-        for(int i = 0; i < _Amount; ++i)
+        //Get reference
+        Treasure _TreasureRef = TreasureManager.GetInstance().GetNextTreasure().GetComponent<Treasure>();
+        //Check if the treasure has reached the surface
+        if(_TreasureRef.GetDepthFound() <= HoleDepth)
         {
-            GameObject _Treasure = new GameObject();
-            _Treasure.AddComponent<Treasure>();
-            _Treasure.GetComponent<Treasure>().SetDepthFound(HoleDepth + 5 * (i + 1));
-            _Treasure.GetComponent<Treasure>().SetGoldAmount(HoleDepth + 10 * (i + 1));
-            TreasureQueue.Enqueue(_Treasure.GetComponent<Treasure>());
-        }
-    }
-
-    void UpdateTreasures()
-    {
-        if(TreasureQueue.Count <= 0)
-        {
-            TreasureQueue.Enqueue(TreasureManager.GetInstance().CreateTreasure(TreasureManager.TreasureType.Gold, 100f, 10f));
-        }
-        else
-        {
-            NextTreasure = TreasureQueue.Dequeue();
+            _TreasureRef.OpenTreasure();
         }
     }
 
     //Update UI related to the hole
     void UpdateUI()
     {
-        HoleDepthText.text = "Depth: " + HoleDepth;
+        HoleDepthText.text = "Depth: " + Mathf.Round((float)HoleDepth);
     }
 
     //Getter to get hole data

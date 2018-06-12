@@ -17,6 +17,7 @@ public class TreasureManager : MonoBehaviour
     public Sprite NormalChestSprite;
 
     private static TreasureManager Instance;
+    private GameObject NextTreasure;
 
     // Use this for initialization
     void Start()
@@ -33,10 +34,21 @@ public class TreasureManager : MonoBehaviour
 
     }
 
-    //Create and returns a treasure
-    public GameObject CreateTreasure(TreasureType _Type, double _Amount, double _DepthFound)
+    public GameObject GetNextTreasure()
     {
-        GameObject _NewTreasure = new GameObject();
+        if(NextTreasure != null)
+        {
+            return NextTreasure;
+        }
+        return NextTreasure = CreateTreasure(TreasureType.Gold, 100, HoleManager.GetInstance().GetHoleData() + 10);
+    }
+
+    //Create and returns a treasure
+    private GameObject CreateTreasure(TreasureType _Type, double _Amount, double _DepthFound)
+    {
+        GameObject _NewTreasure = new GameObject("Treasure");
+        //Set Transform
+        _NewTreasure.transform.position = new Vector3 (0f, 10f, 0f);
         //Add Treasure Script
         _NewTreasure.AddComponent<Treasure>();
         _NewTreasure.GetComponent<Treasure>().Initialise(_DepthFound, _Amount);
