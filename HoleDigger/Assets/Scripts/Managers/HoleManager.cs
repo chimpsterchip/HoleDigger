@@ -60,6 +60,19 @@ public class HoleManager : MonoBehaviour {
         OnDig();
     }
 
+    //Generates a given amount of treasures
+    void GenerateTreasures(int _Amount)
+    {
+        for(int i = 0; i < _Amount; ++i)
+        {
+            GameObject _Treasure = new GameObject();
+            _Treasure.AddComponent<Treasure>();
+            _Treasure.GetComponent<Treasure>().SetDepthFound(HoleDepth + 5 * (i + 1));
+            _Treasure.GetComponent<Treasure>().SetGoldAmount(HoleDepth + 10 * (i + 1));
+            TreasureQueue.Enqueue(_Treasure.GetComponent<Treasure>());
+        }
+    }
+
     void UpdateTreasures()
     {
         if(TreasureQueue.Count <= 0)

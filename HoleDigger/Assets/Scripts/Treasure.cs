@@ -8,6 +8,8 @@ public class Treasure : MonoBehaviour {
 
     double GoldAmount;
 
+    public Sprite TreasureSprite;
+
     private SpriteRenderer Renderer;
 
 	// Use this for initialization
@@ -28,7 +30,11 @@ public class Treasure : MonoBehaviour {
 	}
 
     public double GetDepthFound() { return DepthFound; }
+    public void SetDepthFound(double _Depth) { DepthFound = _Depth; }
     public double GetGoldAmount() { return GoldAmount; }
+    public void SetGoldAmount(double _Gold) { GoldAmount = _Gold; }
+    public Sprite GetTreasureSprite() { return TreasureSprite; }
+    public void SetTreasureSprite(Sprite _NewSprite) { TreasureSprite = _NewSprite; }
 
     public void HideSprite() { Renderer.enabled = false; }
     public void ShowSprite() { Renderer.enabled = true; }

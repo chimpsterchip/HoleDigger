@@ -8,11 +8,14 @@ using UnityEngine;
 public class BackgroundManager : MonoBehaviour {
 
     public float ScreenHeight = 10f;
+    [Tooltip("How many levels there should be in one screenheight.")]
     public float BackgroundDepthRatio = 0.1f;
     public float BackgroundZ = 5f;
+    public float TreasureZ = 4f;
 
     public GameObject CurrentBackground;
     public GameObject NextBackground;
+    public Treasure NextTreasure;
 
     private void OnEnable()
     {
@@ -40,11 +43,11 @@ public class BackgroundManager : MonoBehaviour {
 		
 	}
 
-    void UpdateTreasureObject()
+    void UpdateTreasure()
     {
-        double Depth = HoleManager.GetInstance().GetHoleData();
+        double Depth = NextTreasure.GetDepthFound();
         float modo = ScreenHeight / (BackgroundDepthRatio * 10);
-        double CurrHeight = Depth % modo;
+        double TreasureDepth = Depth % modo;
     }
 
     void UpdateBackground()
@@ -55,6 +58,7 @@ public class BackgroundManager : MonoBehaviour {
             CurrentBackground = NextBackground;
             NextBackground = temp;
         }
+        //Calculate the screen positions of the backgrounds
         double Depth = HoleManager.GetInstance().GetHoleData();
         float modo = ScreenHeight / (BackgroundDepthRatio * 10);
         double CurrHeight = Depth % modo;
