@@ -47,6 +47,9 @@ public class ProgressionManager : MonoBehaviour {
     {
         PlayerPrefs.DeleteAll();
         LoadData();
+        UpdateUI();
+        TreasureManager.GetInstance().ClearTreasure();
+        TreasureManager.GetInstance().GetNextTreasure();
     }
 
 	void UpdateUI()

@@ -40,6 +40,11 @@ public class TreasureManager : MonoBehaviour
 
     }
 
+    public void ClearTreasure()
+    {
+        Destroy(NextTreasure);
+    }
+
     public GameObject GetNextTreasure()
     {
         if(NextTreasure != null)
