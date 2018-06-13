@@ -19,6 +19,9 @@ public class TreasureManager : MonoBehaviour
     public Vector3 TreasureScale = Vector3.one;
     public Sprite NormalChestSprite;
 
+    public GameObject OpenVFX;
+    public AudioClip OpenSFX;
+
     private static TreasureManager Instance;
     private GameObject NextTreasure;
 
@@ -57,9 +60,12 @@ public class TreasureManager : MonoBehaviour
         //Add Treasure Script
         _NewTreasure.AddComponent<Treasure>();
         _NewTreasure.GetComponent<Treasure>().Initialise(_DepthFound + (int)Random.Range(ExtraDepthRange.x, ExtraDepthRange.y), _Amount + (int)Random.Range(ExtraGoldRange.x, ExtraGoldRange.y));
+        _NewTreasure.GetComponent<Treasure>().OpenSFX = OpenSFX;
         //Add Sprite Renderer
         _NewTreasure.AddComponent<SpriteRenderer>();
         _NewTreasure.GetComponent<SpriteRenderer>().sprite = NormalChestSprite;
+        //Add Treasure Prefab
+        _NewTreasure.GetComponent<Treasure>().SetOpenVFX(OpenVFX);
         return _NewTreasure;
     }
 

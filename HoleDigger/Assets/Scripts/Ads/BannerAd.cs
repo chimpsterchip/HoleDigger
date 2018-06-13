@@ -13,7 +13,7 @@ public class BannerAd : MonoBehaviour {
     [Tooltip("Reward for full video")]
     public float fullReward = 100.0f;
     [Tooltip("Reward for skip")]
-    public float skipReward = 50.0f;
+    public float skipReward = 10.0f;
 
     //script ref
     ProgressionManager progMan;

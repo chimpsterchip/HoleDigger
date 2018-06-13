@@ -7,10 +7,13 @@ public class HelperMiniShovel : Helper {
 	// Use this for initialization
 	void Start () {
         CostText.text = "Cost: " + Cost.ToString("F2");
+        PowerText.text = "Dig Strength: " + DigPower.ToString("F2");
+        UpdateButton();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public override void BuyHelper(int _Amount)
+    {
+        base.BuyHelper(_Amount);
+        PlayerPrefs.SetInt("MiniShovelQuantity", HelperQuantity);
+    }
 }

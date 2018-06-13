@@ -22,6 +22,6 @@ public class TwitterIntegration : MonoBehaviour {
     //attach to where twitter is called <- button or something
     public void OpenTwitter()
     {
-        Application.OpenURL(url + "?text=" + WWW.EscapeURL(tweetMessage));
+        Application.OpenURL(url + "?text=" + WWW.EscapeURL("I've managed to dig " + HoleManager.GetInstance().HoleDepth.ToString("F2") + "m in Hole Digger by @StreakingR!"));
     }
 }

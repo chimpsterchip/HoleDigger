@@ -15,10 +15,14 @@ public class HelperManager : MonoBehaviour
 
     private bool Open = false;
 
+    private static HelperManager Instance;
     // Use this for initialization
     void Start()
     {
-
+        if(Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     // Update is called once per frame
@@ -77,5 +81,16 @@ public class HelperManager : MonoBehaviour
     {
         if (Open) CloseStore();
         else if (!Open) OpenStore();
+    }
+
+    public static HelperManager GetInstance()
+    {
+        if (Instance == null)
+        {
+            GameObject _NewInstance = new GameObject("HelperManager");
+            _NewInstance.AddComponent<HelperManager>();
+            Instance = _NewInstance.GetComponent<HelperManager>();
+        }
+        return Instance;
     }
 }

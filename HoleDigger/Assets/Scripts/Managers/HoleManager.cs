@@ -19,12 +19,7 @@ public class HoleManager : MonoBehaviour {
     //Singleton
     private static HoleManager Instance = null;
 
-	// Use this for initialization
-	void Start () {
-        Init();
-	}
-
-    public void Init()
+    private void Awake()
     {
         if (Instance == null)
         {
@@ -34,13 +29,24 @@ public class HoleManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+    }
+
+    // Use this for initialization
+    void Start() {
+        Init();
+    }
+
+    public void Init()
+    {
+        //Lock Screenrotation
+        Screen.orientation = ScreenOrientation.Portrait;
         UpdateUI();
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
 
-	}
+    }
 
     //Function to generate rewards and at what depth they'll be dug up
 
@@ -61,7 +67,7 @@ public class HoleManager : MonoBehaviour {
         //Get reference
         Treasure _TreasureRef = TreasureManager.GetInstance().GetNextTreasure().GetComponent<Treasure>();
         //Check if the treasure has reached the surface
-        if(_TreasureRef.GetDepthFound() <= HoleDepth)
+        if (_TreasureRef.GetDepthFound() <= HoleDepth)
         {
             _TreasureRef.OpenTreasure();
         }
@@ -70,7 +76,7 @@ public class HoleManager : MonoBehaviour {
     //Update UI related to the hole
     void UpdateUI()
     {
-        HoleDepthText.text = "Depth: " + HoleDepth.ToString("F2") + "m";
+        if(HoleDepthText.IsActive()) HoleDepthText.text = "Depth: " + HoleDepth.ToString("F2") + "m";
     }
 
     //Getter to get hole data
@@ -79,11 +85,17 @@ public class HoleManager : MonoBehaviour {
         return HoleDepth;
     }
 
+    public void SetDepth(double _NewDepth) { HoleDepth = _NewDepth; }
+
     //Get Instance
     public static HoleManager GetInstance()
     {
         if(Instance == null)
         {
+            if(GameObject.Find("HoleManager"))
+            {
+                return Instance = GameObject.Find("HoleManager").GetComponent<HoleManager>();
+            }
             GameObject HoleMgt = new GameObject("HoleManager");
             HoleMgt.AddComponent<HoleManager>();
             HoleMgt.GetComponent<HoleManager>().Init();

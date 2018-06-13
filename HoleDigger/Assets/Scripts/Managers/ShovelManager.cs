@@ -9,6 +9,11 @@ public class ShovelManager : MonoBehaviour {
     public int ShovelState = 0; //0 = Idle; 1 = Dig; 2 = Shovel;
     private string ShovelTag = "Shovel";
 
+    public List<AudioClip> ShovelSounds;
+    public Vector2 PitchRange;
+
+    private AudioSource mySource;
+
     private Animator myAnim;
 
     public Text DebugText;
@@ -16,6 +21,7 @@ public class ShovelManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         myAnim = GetComponent<Animator>();
+        mySource = GetComponent<AudioSource>();
         Debug.Log(">>>><<<<SHOVEL_OPERATIONAL>>>><<<<");
     }
 	
@@ -87,5 +93,12 @@ public class ShovelManager : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    public void PlayDigSound()
+    {
+        mySource.clip = ShovelSounds[Random.Range(0, ShovelSounds.Count - 1)];
+        mySource.pitch = Random.Range(PitchRange.x, PitchRange.y);
+        mySource.Play();
     }
 }

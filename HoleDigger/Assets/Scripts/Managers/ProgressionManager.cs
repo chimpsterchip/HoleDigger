@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using DG.Tweening;
 
 public class ProgressionManager : MonoBehaviour {
 
-	[Header("UI Settings")]
+    public delegate void GoldEvent();
+    public static event GoldEvent OnGold;
+
+    [Header("UI Settings")]
 	public Text GoldDisplay;
 	private double GoldAmount;
 
@@ -17,25 +22,57 @@ public class ProgressionManager : MonoBehaviour {
 			Instance = this;
 			DontDestroyOnLoad(gameObject);
 		}
+    }
+
+    private void Start()
+    {
+        LoadData();
+        UpdateUI();
+    }
+
+    // Update is called once per frame
+    void Update () {
+
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		UpdateUI();
-	}
+
+    void LoadData()
+    {
+        HoleManager.GetInstance().SetDepth(PlayerPrefs.GetFloat("Hole Depth"));
+        GoldAmount = PlayerPrefs.GetFloat("Gold Collected");
+        HelperManager.GetInstance().gameObject.GetComponent<HelperMiniShovel>().SetQuantity(PlayerPrefs.GetInt("MiniShovelQuantity"));
+        HelperManager.GetInstance().gameObject.GetComponent<HelperMiniShovel>().SetQuantity(PlayerPrefs.GetInt("ReverseShovelQuantity"));
+    }
+
+    public void ClearData()
+    {
+        PlayerPrefs.DeleteAll();
+        LoadData();
+    }
 
 	void UpdateUI()
 	{
-		if(GoldDisplay) GoldDisplay.text = "Gold: " + GoldAmount;
+        if (GoldDisplay)
+        {
+            GoldDisplay.gameObject.transform.DOShakeScale(0.3f);
+            GoldDisplay.text = "Gold: " + GoldAmount.ToString("F2");
+        }
 	}
 
 	public double GetGoldAmount(){return GoldAmount;}
-	public void AddGold(double _NewGold) {
+	public void AddGold(double _NewGold)
+    {
         GoldAmount += _NewGold;
+        UpdateUI();
+        if(OnGold != null) OnGold();
         //set gold
         PlayerPrefs.SetFloat("Gold Collected", (float)ProgressionManager.GetInstance().GetGoldAmount());
     }
-	public void RemoveGold(double _GoldUsed){GoldAmount -= _GoldUsed;}
+	public void RemoveGold(double _GoldUsed)
+    {
+        GoldAmount -= _GoldUsed;
+        UpdateUI();
+        if (OnGold != null) OnGold();
+    }
 
 	public static ProgressionManager GetInstance()
 	{
@@ -48,4 +85,9 @@ public class ProgressionManager : MonoBehaviour {
 		}
 		return Instance;
 	}
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.Save();
+    }
 }
