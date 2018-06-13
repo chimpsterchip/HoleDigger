@@ -29,7 +29,7 @@ public class BannerAd : MonoBehaviour {
         {
             //get show options
             var showOptions = new ShowOptions { resultCallback = HandleShowResult };
-            Advertisement.Show(adID);
+            Advertisement.Show(adID, showOptions);
         }
     }
 
