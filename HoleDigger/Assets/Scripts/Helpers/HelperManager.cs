@@ -21,36 +21,41 @@ public class HelperManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        SwipeDetection();
     }
 
     void SwipeDetection()
     {
-        foreach (Touch touch in Input.touches)
+        if (Input.touchCount > 0)
         {
+            Touch touch = Input.touches[0];
             Vector3 TouchWorldPos = Camera.main.ScreenToWorldPoint(touch.rawPosition);
             TouchWorldPos.z = 0;
             switch (touch.phase)
             {
                 case TouchPhase.Began:
                     TouchBeginPos = touch.position;
+                    TouchEndPos = touch.position;
                     break;
                 case TouchPhase.Moved:
-
-                    break;
-                case TouchPhase.Ended:
                     TouchEndPos = touch.position;
-                    if (TouchEndPos.x - TouchBeginPos.x < 0)
+                    if (TouchBeginPos.x - TouchEndPos.x > 80)
                     {
                         OpenStore();
                     }
-					TouchBeginPos = Vector2.zero;
-					TouchEndPos = Vector2.zero;
+                    if (TouchBeginPos.x - TouchEndPos.x < -80)
+                    {
+                        CloseStore();
+                    }
+                    break;
+                case TouchPhase.Ended:
+
                     break;
                 default:
                     break;
             }
         }
+
     }
 
     void OpenStore()
