@@ -49,6 +49,8 @@ public class HoleManager : MonoBehaviour {
     {
         HoleDepth += _AmountDug;
         UpdateUI();
+        //set hole depth
+        PlayerPrefs.SetFloat("Hole Depth", (float)HoleManager.GetInstance().GetHoleData());
         CheckNextTreasure();
         OnDig();
     }
