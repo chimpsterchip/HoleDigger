@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Helps the player dig the hole
 public class Helper : MonoBehaviour
@@ -12,6 +13,7 @@ public class Helper : MonoBehaviour
     public int HelperQuantity;
     [Tooltip("How much the helper can dig a second.")]
     public double DigPower;
+    public Text CostText;
 
     // Use this for initialization
     void Start()
@@ -35,6 +37,9 @@ public class Helper : MonoBehaviour
         {
             HelperQuantity += _Amount;
             ProgressionManager.GetInstance().RemoveGold(Cost);
+            Cost *= 1.1f;
+            Cost = Mathf.Round(Cost);
+            CostText.text = Cost.ToString();
         }
     }
 }
