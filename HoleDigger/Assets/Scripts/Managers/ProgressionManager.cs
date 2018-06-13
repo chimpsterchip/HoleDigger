@@ -30,7 +30,11 @@ public class ProgressionManager : MonoBehaviour {
 	}
 
 	public double GetGoldAmount(){return GoldAmount;}
-	public void AddGold(double _NewGold) {GoldAmount += _NewGold;}
+	public void AddGold(double _NewGold) {
+        GoldAmount += _NewGold;
+        //set gold
+        PlayerPrefs.SetFloat("Gold Collected", (float)ProgressionManager.GetInstance().GetGoldAmount());
+    }
 	public void RemoveGold(double _GoldUsed){GoldAmount -= _GoldUsed;}
 
 	public static ProgressionManager GetInstance()
