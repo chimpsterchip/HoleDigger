@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 //Runs the helper store to buy and levelup helpers
 public class HelperManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class HelperManager : MonoBehaviour
 
     private Vector2 TouchBeginPos;
     private Vector2 TouchEndPos;
+
+    private bool Open = false;
 
     // Use this for initialization
     void Start()
@@ -58,13 +61,21 @@ public class HelperManager : MonoBehaviour
 
     }
 
-    void OpenStore()
+    public void OpenStore()
     {
-        StoreRef.transform.position = new Vector3(0f, 0f, 0f);
+        StoreRef.transform.DOMove(new Vector3(Screen.width / 2 + Screen.width / 4, Screen.height / 2, 0f), 1f);
+        Open = true;
     }
 
-    void CloseStore()
+    public void CloseStore()
     {
-        StoreRef.transform.position = new Vector3(450f, 0f, 0f);
+        StoreRef.transform.DOMove(new Vector3(Screen.width + Screen.width / 4, Screen.height/2, 0f), 1f);
+        Open = false;
+    }
+
+    public void ChangeConfig()
+    {
+        if (Open) CloseStore();
+        else if (!Open) OpenStore();
     }
 }

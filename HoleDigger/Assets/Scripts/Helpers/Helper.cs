@@ -14,6 +14,7 @@ public class Helper : MonoBehaviour
     [Tooltip("How much the helper can dig a second.")]
     public double DigPower;
     public Text CostText;
+    public Text PowerText;
 
     // Use this for initialization
     void Start()
@@ -38,8 +39,7 @@ public class Helper : MonoBehaviour
             HelperQuantity += _Amount;
             ProgressionManager.GetInstance().RemoveGold(Cost);
             Cost *= 1.1f;
-            Cost = Mathf.Round(Cost);
-            CostText.text = Cost.ToString();
+            CostText.text = "Cost: " + Cost.ToString("F2");
         }
     }
 }

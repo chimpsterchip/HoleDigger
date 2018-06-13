@@ -11,7 +11,7 @@ public class ProgressionManager : MonoBehaviour {
 
 	private static ProgressionManager Instance;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		if(Instance == null)
 		{
 			Instance = this;
@@ -26,7 +26,7 @@ public class ProgressionManager : MonoBehaviour {
 
 	void UpdateUI()
 	{
-		GoldDisplay.text = "Gold: " + GoldAmount;
+		if(GoldDisplay) GoldDisplay.text = "Gold: " + GoldAmount;
 	}
 
 	public double GetGoldAmount(){return GoldAmount;}

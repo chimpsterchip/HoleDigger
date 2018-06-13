@@ -68,7 +68,7 @@ public class HoleManager : MonoBehaviour {
     //Update UI related to the hole
     void UpdateUI()
     {
-        HoleDepthText.text = "Depth: " + Mathf.Round((float)HoleDepth);
+        HoleDepthText.text = "Depth: " + HoleDepth.ToString("F2") + "m";
     }
 
     //Getter to get hole data

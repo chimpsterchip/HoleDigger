@@ -13,7 +13,10 @@ public class TreasureManager : MonoBehaviour
         Gold
     }
 
+    public Vector2 ExtraGoldRange = Vector2.zero;
+    public Vector2 ExtraDepthRange = Vector2.zero;
 
+    public Vector3 TreasureScale = Vector3.one;
     public Sprite NormalChestSprite;
 
     private static TreasureManager Instance;
@@ -49,9 +52,11 @@ public class TreasureManager : MonoBehaviour
         GameObject _NewTreasure = new GameObject("Treasure");
         //Set Transform
         _NewTreasure.transform.position = new Vector3 (0f, 10f, 0f);
+        _NewTreasure.transform.localScale = TreasureScale;
+        _NewTreasure.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
         //Add Treasure Script
         _NewTreasure.AddComponent<Treasure>();
-        _NewTreasure.GetComponent<Treasure>().Initialise(_DepthFound, _Amount);
+        _NewTreasure.GetComponent<Treasure>().Initialise(_DepthFound + (int)Random.Range(ExtraDepthRange.x, ExtraDepthRange.y), _Amount + (int)Random.Range(ExtraGoldRange.x, ExtraGoldRange.y));
         //Add Sprite Renderer
         _NewTreasure.AddComponent<SpriteRenderer>();
         _NewTreasure.GetComponent<SpriteRenderer>().sprite = NormalChestSprite;

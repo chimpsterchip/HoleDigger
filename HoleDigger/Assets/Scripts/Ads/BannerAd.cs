@@ -22,7 +22,7 @@ public class BannerAd : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        progMan = ProgressionManager.GetInstance();
 	}
 	
 	// Update is called once per frame
