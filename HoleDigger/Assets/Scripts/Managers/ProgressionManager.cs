@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ProgressionManager : MonoBehaviour {
 
-
 	[Header("UI Settings")]
 	public Text GoldDisplay;
 	private double GoldAmount;

@@ -9,6 +9,15 @@ public class BannerAd : MonoBehaviour {
     [Tooltip("The placement indentifier of the ad")]
     public string adID = "video";
 
+    [Header("Reward amounts")]
+    [Tooltip("Reward for full video")]
+    public float fullReward = 100.0f;
+    [Tooltip("Reward for skip")]
+    public float skipReward = 50.0f;
+
+    //script ref
+    ProgressionManager progMan;
+
     //ShowResult adViewResult;
 
 	// Use this for initialization
@@ -40,13 +49,16 @@ public class BannerAd : MonoBehaviour {
         switch (result)
         {
             case ShowResult.Finished:
-
+                //give player gold
+                progMan.AddGold(fullReward);
                 break;
             case ShowResult.Skipped:
-
+                //give player less gold
+                progMan.AddGold(skipReward);
                 break;
             case ShowResult.Failed:
-
+                //take the money ad should have earned
+                Debug.Log("The ad couldn't load. Check that internet connection by attaching to cable you unearthed in that hole of yours");
                 break;
             default:
 
